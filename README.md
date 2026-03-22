@@ -76,48 +76,36 @@ cd CloudEagle_Repository_Analyzer
 mvn spring-boot:run
 ```
 
-Application will start at:
-
-```
-http://localhost:8080
-
-```
-
 ---
 
 ## 🔐 Login with GitHub
 
-Open in browser:
+After starting the application, open the following URL in your browser:
 
 http://localhost:8080/login
 
-👉 This will redirect to GitHub for authentication.
+- Click on **GitHub**
+- You will be redirected to GitHub for authentication
+- After successful login, you will be redirected to Swagger UI
 
-After successful login, you will be redirected to Swagger UI:
-
-http://localhost:8080/swagger-ui/index.html
+Swagger UI: http://localhost:8080/swagger-ui/index.html
 
 # 📡 API Usage
 
 ## ✅ Endpoint
 
-```
 GET /repositories/{orgName}
-```
 
 👉 Replace orgName with your actual GitHub organization name.
-```
 
 ---
 
 ## ✅ Sample Response
 
-```
 {
   "alice": ["RepoA", "RepoB"],
   "bob": ["RepoA"]
 }
-```
 
 👉 Meaning:
 
