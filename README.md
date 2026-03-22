@@ -120,7 +120,7 @@ GET /report/{orgName}
 * Used **RestTemplate** for GitHub API calls
 * Used **CompletableFuture** for parallel processing (performance optimization)
 * Used **ConcurrentHashMap** for thread-safe aggregation
-* Only collaborators are considered (permissions not included for simplicity)
+* Implemented pagination to fetch all repositories and collaborators efficiently
 
 ---
 
