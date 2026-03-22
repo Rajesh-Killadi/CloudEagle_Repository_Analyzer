@@ -12,9 +12,9 @@ public interface GithubService {
 	
 	public String getAccessToken(Authentication authentication);
 
-	public RepoDto[] getRepositories(String org, String token);
+	public List<RepoDto> getRepositories(String org, String token);
 
-	public CollabratorDto[] getCollabrators(String org, String repo, String token);
+	public List<CollabratorDto> getCollabrators(String org, String repo, String token);
 
 	public Map<String, List<String>> generateAccessReport(String org, String token);
 

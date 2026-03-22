@@ -22,13 +22,12 @@ public class AnalyzerController {
 	private final GithubService service;
 
 	
-	@GetMapping("/repositories/{orgName}")
+	@GetMapping("/report/{orgName}")
 	public ResponseEntity<Map<String, List<String>>> getRepositiories(Authentication auth, @PathVariable String orgName){
 		
 		
 		String accessToken = service.getAccessToken(auth);
 		
-		System.out.println(accessToken);
 		
 		Map<String, List<String>> accessReport = service.generateAccessReport(orgName, accessToken);
 		

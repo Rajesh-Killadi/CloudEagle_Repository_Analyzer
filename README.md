@@ -94,7 +94,7 @@ Swagger UI: http://localhost:8080/swagger-ui/index.html
 
 ## ✅ Endpoint
 
-GET /repositories/{orgName}
+GET /report/{orgName}
 
 👉 Replace orgName with your actual GitHub organization name.
 

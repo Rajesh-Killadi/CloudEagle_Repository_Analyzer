@@ -54,62 +54,82 @@ public class GithubServiceImpl implements GithubService {
     }
     
     
+    public List<RepoDto> getRepositories(String org, String token) {
+    	
+        List<RepoDto> allRepos = new ArrayList<>();
+        int page = 1;
+        int perPage = 50;
 
-    public RepoDto[] getRepositories(String org, String token) {
+        while (true) {
+        	
+            String url = "https://api.github.com/orgs/" + org + "/repos?per_page=" + perPage + "&page=" + page;
 
-        String url = "https://api.github.com/orgs/"+org+"/repos";
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(token);
+            headers.set("Accept", "application/vnd.github+json");
 
-      
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        headers.set("Accept", "application/vnd.github+json");
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
 
-        HttpEntity<Void> entity = new HttpEntity<>(headers);
-        
-        ResponseEntity<RepoDto[]> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                entity,
-                RepoDto[].class
-        );
-        
-       
-        
+            ResponseEntity<RepoDto[]> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    entity,
+                    RepoDto[].class
+            );
 
-        return response.getBody();
-        
+            RepoDto[] repos = response.getBody();
+            
+            if (repos == null || repos.length == 0) break;
+
+            allRepos.addAll(List.of(repos));
+            
+            page++; 
+        }
+
+        return allRepos;
     }
     
-    public CollabratorDto[] getCollabrators(String org, String repo, String token) {
+    
+    public List<CollabratorDto> getCollabrators(String org, String repo, String token) {
     	
-    	
-    	 String collabUrl = "https://api.github.com/repos/"
-                 + org +"/"+repo+
-                  "/collaborators";
-    	 
-    	 HttpHeaders headers = new HttpHeaders();
-         headers.setBearerAuth(token);
-         headers.set("Accept", "application/vnd.github+json");
+        List<CollabratorDto> allCollabs = new ArrayList<>();
+        
+        int page = 1;
+        int perPage = 100;
 
-         HttpEntity<Void> entity = new HttpEntity<>(headers);
+        while (true) {
+            String collabUrl = "https://api.github.com/repos/" + org + "/" + repo + "/collaborators?per_page=" + perPage + "&page=" + page;
 
-         ResponseEntity<CollabratorDto[]> collabResponse = restTemplate.exchange(
-                 collabUrl,
-                 HttpMethod.GET,
-                 entity,
-                 CollabratorDto[].class
-         );
+            HttpHeaders headers = new HttpHeaders();
+            headers.setBearerAuth(token);
+            headers.set("Accept", "application/vnd.github+json");
 
-         return  collabResponse.getBody();
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+            ResponseEntity<CollabratorDto[]> collabResponse = restTemplate.exchange(
+                    collabUrl,
+                    HttpMethod.GET,
+                    entity,
+                    CollabratorDto[].class
+            );
+
+            CollabratorDto[] collabs = collabResponse.getBody();
+            if (collabs == null || collabs.length == 0) break;
+
+            allCollabs.addAll(List.of(collabs));
+            page++;
+        }
+
+        return allCollabs;
     }
         
     
     
     public Map<String, List<String>> generateAccessReport(String org, String token) {
 
-        RepoDto[] repos = getRepositories(org, token);
-        
-        if (repos == null) return new HashMap<>();
+    	List<RepoDto> repos = getRepositories(org, token);
+
+        if (repos.isEmpty()) return new HashMap<>();
 
         Map<String, List<String>> report = new ConcurrentHashMap<>();
 
@@ -119,7 +139,7 @@ public class GithubServiceImpl implements GithubService {
         	
             CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
             
-            CollabratorDto[] collabrators = getCollabrators(org, repo.getName(), token );
+            	List<CollabratorDto> collabrators = getCollabrators(org, repo.getName(), token );
                
 
                 if (collabrators != null) {
