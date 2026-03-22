@@ -126,10 +126,9 @@ GET /repositories/{orgName}
 
 # ⚠️ Important Notes: Access Requirements for Organization Repositories
 
-To successfully fetch organization repositories (especially private ones), the following conditions must be met:
+To successfully fetch organization repositories, the following conditions must be met:
 
-🔐 Required Access
-You must login using an organization admin account to access to organization
+👉 You must login using an organization admin account to access to organization
 
 ---
 # ⚠️ Troubleshooting: Private Repositories Not Visible
