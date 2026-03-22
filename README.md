@@ -103,14 +103,14 @@ GET /report/{orgName}
 ## ✅ Sample Response
 
 {
-  "alice": ["RepoA", "RepoB"],
-  "bob": ["RepoA"]
+  "Rajesh": ["RepoA", "RepoB"],
+  "Ram": ["RepoA"]
 }
 
 👉 Meaning:
 
-* **alice** has access to RepoA and RepoB
-* **bob** has access to RepoA
+* **Rajesh** has access to RepoA and RepoB
+* **Ram** has access to RepoA
 
 ---
 
